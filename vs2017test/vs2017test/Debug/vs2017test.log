@@ -1,0 +1,4 @@
+﻿  main.cpp
+C:\Victor\Work\Graphics\Summer 2020\vs2017test\vs2017test\vs2017test\main.cpp(6,31): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+C:\Victor\Work\Graphics\Summer 2020\vs2017test\vs2017test\vs2017test\main.cpp(25,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  vs2017test.vcxproj -> C:\Victor\Work\Graphics\Summer 2020\vs2017test\vs2017test\Debug\vs2017test.exe
