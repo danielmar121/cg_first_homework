@@ -1,6 +1,9 @@
 #include "glut.h"
 #include <math.h>
 #include <time.h>
+#include <iostream>
+#include <string>
+using namespace std;
 
 typedef struct
 {
@@ -36,63 +39,47 @@ void init()
 	glOrtho(-1, 1, -1, 1, 1, -1); // logical coordinates
 }
 
-void DrawMainAxes()
-{
-	glColor3d(1, 1, 1);
-
-	// X
-	glBegin(GL_LINES);
-	glVertex2d(-1, 0);
-	glVertex2d(1, 0);
-	glEnd();
-	// arrow
-	glBegin(GL_POLYGON);
-	glVertex2d(1, 0);
-	glVertex2d(0.85, 0.05);
-	glVertex2d(0.85, -0.05);
-	glEnd();
-
-	// Y
-	glBegin(GL_LINES);
-	glVertex2d(0, -1);
-	glVertex2d(0, 1);
-	glEnd();
-	// arrow
-	glBegin(GL_POLYGON);
-	glVertex2d(0, 1);
-	glVertex2d(0.05, 0.85);
-	glVertex2d(-0.05, 0.85);
-	glEnd();
-}
-
 void 	DrawStarrySky()
 {
 	int i;
 
+	// sky
 	glBegin(GL_POLYGON);
-	glColor3d(0, 0, 0.2); // dark
-	glVertex2d(-1, 1);  // left- top
-	glVertex2d(1, 1);  // right-top
-	glColor3d(0, 0.2, 0.4);
-	glVertex2d(1, -0.5);  // right-bottom
-	glColor3d(0, 0.3, 0.6);// light blue
-	glVertex2d(0, -0.5); // right-bottom
-	glColor3d(0.1, 0.3, 0.4);
-	glVertex2d(-1, -0.5);  // left-bottom
-//	glVertex2d(-0, -0.5); // left-bottom
+	// fourth 1/4 in left purple
+	glColor3d(0.6, 0, 0.4); // dark
+	glVertex2d(-1, 1);  // right-top
+	// third 1/4 left in red
+	glColor3d(0.9, 0.1, 0);
+	glVertex2d(-1, 0.5);
+	// second 1/4 left in orange
+	glColor3d(0.9, 0.7, 0);
+	glVertex2d(-1, 0);
+	// first 1/4 left in yellow
+	glColor3d(1, 1, 0);
+	glVertex2d(-1, -0.5);
+	// first 1/4 right in yellow
+	glColor3d(1, 1, 0);
+	glVertex2d(1, -0.5);
+	// second 1/4 right in orange
+	glColor3d(0.9, 0.7, 0);
+	glVertex2d(1, 0);
+	// third 1/4 right in red
+	glColor3d(0.9, 0.1, 0);
+	glVertex2d(1, 0.5);
+	// fourth 1/4 in right purple
+	glColor3d(0.6, 0, 0.4); // dark
+	glVertex2d(1, 1);  // left- top
 	glEnd();
 
 	glBegin(GL_POLYGON);
-	glColor3d(0, 0, 0.2); // dark
-	glVertex2d(-1, -1);  // left- top
-	glVertex2d(1, -1);  // right-top
-	glColor3d(0, 0.2, 0.4);
-	glVertex2d(1, -0.5);  // right-bottom
-	glVertex2d(-1, -0.5);  // left-bottom
-//	glVertex2d(-0, -0.5); // left-bottom
+	glColor3d(0.4, 0.7, 1); // light blue
+	glVertex2d(1, -0.5);  // right-top
+	glVertex2d(-1, -0.5);  // left- top
+	glColor3d(0.4, 0.1, 0.8); // dark blue
+	glVertex2d(-1, -1);  // left-bottom
+	glVertex2d(1, -1);  // right-bottom
 	glEnd();
 
-	//	glPointSize(2);
 	glColor3d(1, 1, 0); // yellow
 	glBegin(GL_POINTS);
 
@@ -132,12 +119,35 @@ void DrawWheel(double cx, double cy, double radius, int n)
 	{
 		x = cx + radius * cos(alpha + offset);
 		y = cy + radius * sin(alpha + offset);
-		glColor3d(1, 1, 0); // yellow
+		glColor3d(0.7, 0.5, 0.4); // yellow both
 		glBegin(GL_POLYGON);
 		glVertex2d(x + 0.02, y + 0.02);
 		glVertex2d(x - 0.02, y + 0.02);
 		glVertex2d(x - 0.02, y - 0.02);
 		glVertex2d(x + 0.02, y - 0.02);
+		glEnd();
+
+		glColor3d(0, 0.7, 1); // blue window
+		glBegin(GL_POLYGON);
+		glVertex2d(x - 0.005, y + 0.01);
+		glVertex2d(x - 0.015, y + 0.01);
+		glVertex2d(x - 0.015, y - 0.01);
+		glVertex2d(x - 0.005, y - 0.01);
+		glEnd();
+
+		glColor3d(0, 0.7, 1); // blue window
+		glBegin(GL_POLYGON);
+		glVertex2d(x + 0.015, y + 0.01);
+		glVertex2d(x + 0.005, y + 0.01);
+		glVertex2d(x + 0.005, y - 0.01);
+		glVertex2d(x + 0.015, y - 0.01);
+		glEnd();
+
+		glColor3d(0.5, 0.1, 0.2); // red roof
+		glBegin(GL_POLYGON);
+		glVertex2d(x + 0.02, y + 0.02);
+		glVertex2d(x, y + 0.04);
+		glVertex2d(x - 0.02, y + 0.02);
 		glEnd();
 	}
 
@@ -155,7 +165,6 @@ void DrawWheel(double cx, double cy, double radius, int n)
 
 void DrawBuilding(double cx, double top, double bottom, double w, double r, double g, double b)
 {
-	//	double w = 0.035;
 	double row, col;
 	int i, j;
 
@@ -185,30 +194,100 @@ void DrawBuilding(double cx, double top, double bottom, double w, double r, doub
 	glEnd();
 }
 
+void ElectraTower(double leftBottomX, double leftButtomY) {
+	double windowWidth = 0.1875, cubeSize = 0.25, pipeSize = 0.03125;
+	int cube;
+	double pipe, window;
+
+	for (cube = 0; cube < 3; cube++)
+	{
+		leftButtomY += 0.25;
+		glBegin(GL_POLYGON);
+		glColor3d(0.2, 0.4, 0.5);
+		glVertex2d(leftBottomX + pipeSize, leftButtomY); // left bottom
+		glVertex2d(leftBottomX + pipeSize + windowWidth, leftButtomY); // right bottom
+		glVertex2d(leftBottomX + pipeSize + windowWidth, leftButtomY + cubeSize); // right top
+		glVertex2d(leftBottomX + pipeSize, leftButtomY + cubeSize); // left top
+		glEnd();
+
+		glLineWidth(1);
+		for (window = 0; window <= windowWidth; window += windowWidth / 5)
+		{
+			glBegin(GL_LINES);
+			glColor3d(0, 0, 0);
+			glVertex2d(leftBottomX + pipeSize, leftButtomY + pipeSize + window); // left bottom
+			glVertex2d(leftBottomX + cubeSize - pipeSize, leftButtomY + pipeSize + window); // right bottom
+			glEnd();
+		}
+
+		for (window = 0; window < windowWidth; window += windowWidth / 10)
+		{
+			glBegin(GL_LINES);
+			glColor3d(0, 0, 0);
+			glVertex2d(leftBottomX + pipeSize + window, leftButtomY + pipeSize); // left bottom
+			glVertex2d(leftBottomX + pipeSize + window, leftButtomY + cubeSize - pipeSize); // right bottom
+			glEnd();
+		}
+
+		glLineWidth(3);
+		glBegin(GL_LINE_LOOP);
+		glColor3d(1, 1, 1);
+		glVertex2d(leftBottomX, leftButtomY); // left bottom
+		glVertex2d(leftBottomX + cubeSize, leftButtomY); // right bottom
+		glVertex2d(leftBottomX + cubeSize, leftButtomY + cubeSize); // right top
+		glVertex2d(leftBottomX, leftButtomY + cubeSize); // left top
+		glEnd();
+
+		for (pipe = windowWidth / 4; pipe < windowWidth; pipe += windowWidth / 4)
+		{
+			// bottom pipes
+			glBegin(GL_LINES);
+			glVertex2d(leftBottomX + pipe + pipeSize, leftButtomY);
+			glVertex2d(leftBottomX + pipe + pipeSize, leftButtomY + pipeSize);
+			glEnd();
+
+			// top pipes
+			glBegin(GL_LINES);
+			glVertex2d(leftBottomX + pipe + pipeSize, leftButtomY + cubeSize);
+			glVertex2d(leftBottomX + pipe + pipeSize, leftButtomY - pipeSize + cubeSize);
+			glEnd();
+		}
+
+		for (pipe = windowWidth / 5; pipe < windowWidth; pipe += windowWidth / 5)
+		{
+			// left pipes
+			glBegin(GL_LINES);
+			glVertex2d(leftBottomX, leftButtomY + pipe + pipeSize);
+			glVertex2d(leftBottomX + pipeSize, leftButtomY + pipe + pipeSize);
+			glEnd();
+
+			// right pipes
+			glBegin(GL_LINES);
+			glVertex2d(leftBottomX + cubeSize, leftButtomY + pipe + pipeSize);
+			glVertex2d(leftBottomX - pipeSize + cubeSize, leftButtomY + pipe + pipeSize);
+			glEnd();
+		}
+	}
+}
+
 // redraw function
 void display()
 {
-	double x, y, step = 0.1;
+	double x = 0, y = 0, step = 0.1;
 	glClear(GL_COLOR_BUFFER_BIT); // clean frame buffer
 
 	DrawStarrySky();
+	DrawWheel(-0.5, 0, 0.45, 30);
+	ElectraTower(0.5,-0.75);
 
-	//	DrawMainAxes();
-		// draw graph of function
-	glPointSize(2);
-	glLineWidth(2);
-	//	glBegin(GL_LINE_STRIP);
+	
 	for (x = -1; x <= 1; x += step)
 	{
 		y = 0.2 * cos(3 * x) - 0.1 + 0.2 * sin(50 * x);
-		//		glColor3d(0.4*(1-fabs(y)), 0.4*(fabs(x)), fabs(y));
-		//		glVertex2d(x, y);
-				// send the center x, height and bottom and red, green, blue color component
+		// send the center x, height and bottom and red, green, blue color component
 		DrawBuilding(x, y, -0.5, 0.04, 0.3 * (1 - fabs(y)), 0.4 * (fabs(x)), fabs(y));
 	}
-	//	glEnd();
 
-	//	glBegin(GL_LINE_STRIP);
 	step = 0.2;
 	for (x = -1; x <= 1; x += step)
 	{
@@ -218,9 +297,7 @@ void display()
 		// send the center x, height and bottom and red, green, blue color component
 		DrawBuilding(x, y, -0.5, 0.06, 0.3, 0.4 * (1 - fabs(x)), fabs(y));
 	}
-	//	glEnd();
-
-	DrawWheel(-0.5, 0, 0.45, 30);
+	
 
 	glutSwapBuffers(); // show all
 }
