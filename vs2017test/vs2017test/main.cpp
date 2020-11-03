@@ -361,19 +361,9 @@ void idle()
 	int i, j;
 
 	// update moving stars
-	
-	for (i = 0; i < NUM_STARS; i++)
-	{
-		stars[i].x *= 1.003;
-		stars[i].y *= 1.003;
-
-		if (fabs(stars[i].x) > 1 || fabs(stars[i].y) > 1) // pick new random position
-		{
-			stars[i].x = -0.5 + (rand() % 1000) / 1000.0; // random value in range (-1,1);
-			stars[i].y = -0.5 + (rand() % 1000) / 1000.0; // random value in range (-1,1);
-		}
-	}
-	
+	int starNum = (rand() % 100);
+	stars[starNum].x = -1 + (rand() % 1000) / 500.0; // random value in range (-1,1);
+	stars[starNum].y = -1 + (rand() % 1000) / 500.0; // random value in range (-1,1);
 
 	// switch light in randomly choosen window
 	i = rand() % NUM_STARS;
