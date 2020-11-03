@@ -121,7 +121,7 @@ void DrawWheel(double cx, double cy, double radius, int n)
 	{
 		x = cx + radius * cos(alpha + offset);
 		y = (cy + radius * sin(alpha + offset));
-		glColor3d(0.7, 0.5, 0.4); // yellow both
+		glColor3d(0.7, 0.5, 0.4); // yellow booth
 		glBegin(GL_POLYGON);
 		glVertex2d(x + 0.02, y + 0.02);
 		glVertex2d(x - 0.02, y + 0.02);
@@ -326,7 +326,7 @@ void display()
 	ElectraTower(0.5, -0.75);
 	
 	
-	// big buildings
+	// high buildings
 	for (x = -1, i = 0; x <= 1; x += step, i++)
 	{
 		y = 0.2 * cos(3 * x) - 0.1 + 0.2 * sin(50 * x) + heights[i];
@@ -337,7 +337,7 @@ void display()
 		DrawBuilding(x, -0.5, -0.5 + (-0.5 - y), 0.04, 0.3 * (1 - fabs(y)) - 0.1, 0.4 * (fabs(x)) - 0.1, fabs(y) - 0.1);
 	}
 
-	// small buildings
+	// law buildings
 	step = 0.2;
 	for (x = -1, i = 0; x <= 1; x += step, i++)
 	{
@@ -365,7 +365,7 @@ void idle()
 	stars[starNum].x = -1 + (rand() % 1000) / 500.0; // random value in range (-1,1);
 	stars[starNum].y = -1 + (rand() % 1000) / 500.0; // random value in range (-1,1);
 
-	// switch light in randomly choosen window
+	// switch light in randomly chosen window
 	i = rand() % NUM_STARS;
 	j = rand() % NUM_STARS;
 	light[i][j] = !light[i][j];
