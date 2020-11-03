@@ -195,36 +195,6 @@ void DrawBuilding(double cx, double top, double bottom, double w, double r, doub
 		}
 	glEnd();
 }
-void DrawBuildingReflection(double cx, double top, double bottom, double w, double r, double g, double b)
-{
-	double row, col;
-	int i, j;
-
-	glBegin(GL_POLYGON);
-	glColor3d(r, g, b);
-	glVertex2d(cx - w, top);
-	glVertex2d(cx + w, top);
-	glColor3d(2 * r, 2 * g, 0.9);
-	glVertex2d(cx + w, bottom);
-	glVertex2d(cx - w, bottom);
-	glEnd();
-
-	// windows
-	glPointSize(2);
-	glColor3d(0.7, 0.7, 0);
-	glBegin(GL_POINTS);
-	for (row = bottom + 0.01, i = 0; row < top; row += 0.02, i++)
-		for (col = cx - w + 0.01, j = 0; col < cx + w - 0.01; col += 0.015, j++)
-		{
-			if (light[i][j])
-				glColor3d(0.7, 0.7, 0);
-			else
-				glColor3d(0, 0, 0);
-
-			glVertex2d(col, row);
-		}
-	glEnd();
-}
 
 void ElectraTower(double leftBottomX, double leftButtomY) {
 	double windowWidth = 0.1875, cubeSize = 0.25, pipeSize = 0.03125;
@@ -232,7 +202,7 @@ void ElectraTower(double leftBottomX, double leftButtomY) {
 	double pipe, window;
 	double reflectionButtomY = leftButtomY + 0.25;
 
-	for (cube = 0; cube < 3; cube++)
+	for (cube = 0; cube < 4; cube++)
 	{
 		leftButtomY += 0.25;
 		glBegin(GL_POLYGON);
@@ -242,7 +212,6 @@ void ElectraTower(double leftBottomX, double leftButtomY) {
 		glVertex2d(leftBottomX + pipeSize + windowWidth, leftButtomY + cubeSize); // right top
 		glVertex2d(leftBottomX + pipeSize, leftButtomY + cubeSize); // left top
 		glEnd();
-
 
 		glLineWidth(1);
 		for (window = 0; window <= windowWidth; window += windowWidth / 5)
@@ -323,7 +292,6 @@ void ElectraTower(double leftBottomX, double leftButtomY) {
 		glVertex2d(leftBottomX + pipeSize, reflectionButtomY - cubeSize); // left bottom
 		glEnd();
 
-
 		glLineWidth(3);
 		glBegin(GL_LINE_LOOP);
 		glColor3d(1, 1, 0.9);
@@ -355,8 +323,6 @@ void display()
 	DrawWheel(-0.5, -0.95, 0.45, 30);
 	glDisable(GL_BLEND);
 
-
-
 	ElectraTower(0.5, -0.75);
 	/* transparent reflection of electra
 	glEnable(GL_BLEND);
@@ -365,27 +331,18 @@ void display()
 	glDisable(GL_BLEND);
 	*/
 
-
+	// big buildings
 	for (x = -1, i = 0; x <= 1; x += step, i++)
 	{
 		y = 0.2 * cos(3 * x) - 0.1 + 0.2 * sin(50 * x) + heights[i];
 		// send the center x, height and bottom and red, green, blue color component
 		DrawBuilding(x, y, -0.5, 0.04, 0.3 * (1 - fabs(y)), 0.4 * (fabs(x)), fabs(y));
 
-		//transparent reflection
-		glEnable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
-		//glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_DST_COLOR);
-		//glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
-
-
-		DrawBuilding(x, -0.5, -0.5 + (-0.5 - y), 0.04, 0.3 * (1 - fabs(y)), 0.4 * (fabs(x)), fabs(y));
-		glDisable(GL_BLEND);
-
-		//DrawBuildingReflection(x, -0.5, -0.5 + (-0.5 - y), 0.04, 0.3 * (1 - fabs(y)), 0.4 * (fabs(x)), 1-fabs(y));
+		//reflection
+		DrawBuilding(x, -0.5, -0.5 + (-0.5 - y), 0.04, 0.3 * (1 - fabs(y)) - 0.1, 0.4 * (fabs(x)) - 0.1, fabs(y) - 0.1);
 	}
 
+	// small buildings
 	step = 0.2;
 	for (x = -1, i = 0; x <= 1; x += step, i++)
 	{
@@ -396,15 +353,9 @@ void display()
 		// send the center x, height and bottom and red, green, blue color component
 		DrawBuilding(x, y, -0.5, 0.06, 0.3, 0.4 * (1 - fabs(x)), fabs(y));
 
-		//transparent reflection
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
-		DrawBuilding(x, -0.5, -0.5 + (-0.5 - y), 0.06, 0.3, 0.4 * (1 - fabs(x)), fabs(y));
-		glDisable(GL_BLEND);
-
-
+		//reflection
+		DrawBuilding(x, -0.5, -0.5 + (-0.5 - y), 0.06, 0.3- 0.05, 0.4 * (1 - fabs(x)) - 0.05, fabs(y) - 0.05);
 	}
-
 
 	glutSwapBuffers(); // show all
 }
