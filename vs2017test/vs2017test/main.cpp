@@ -213,6 +213,15 @@ void ElectraTower(double leftBottomX, double leftButtomY) {
 		glVertex2d(leftBottomX + pipeSize, leftButtomY + cubeSize); // left top
 		glEnd();
 
+		//reflection
+		glBegin(GL_POLYGON);
+		glColor3d(0.1, 0.3, 0.4);
+		glVertex2d(leftBottomX + pipeSize, reflectionButtomY); // left top
+		glVertex2d(leftBottomX + pipeSize + windowWidth, reflectionButtomY); // right top
+		glVertex2d(leftBottomX + pipeSize + windowWidth, reflectionButtomY - cubeSize); // right bottom
+		glVertex2d(leftBottomX + pipeSize, reflectionButtomY - cubeSize); // left bottom
+		glEnd();
+
 		glLineWidth(1);
 		for (window = 0; window <= windowWidth; window += windowWidth / 5)
 		{
@@ -220,8 +229,8 @@ void ElectraTower(double leftBottomX, double leftButtomY) {
 			glColor3d(0, 0, 0);
 			glVertex2d(leftBottomX + pipeSize, leftButtomY + pipeSize + window); // left bottom
 			glVertex2d(leftBottomX + cubeSize - pipeSize, leftButtomY + pipeSize + window); // right bottom
-			//glVertex2d(leftBottomX + pipeSize, reflectionButtomY - pipeSize - window); // left bottom
-			//glVertex2d(leftBottomX + cubeSize - pipeSize, reflectionButtomY - pipeSize - window); // right bottom
+			glVertex2d(leftBottomX + pipeSize, reflectionButtomY - pipeSize - window); // left bottom
+			glVertex2d(leftBottomX + cubeSize - pipeSize, reflectionButtomY - pipeSize - window); // right bottom
 			glEnd();
 		}
 
@@ -231,8 +240,8 @@ void ElectraTower(double leftBottomX, double leftButtomY) {
 			glColor3d(0, 0, 0);
 			glVertex2d(leftBottomX + pipeSize + window, leftButtomY + pipeSize); // left bottom
 			glVertex2d(leftBottomX + pipeSize + window, leftButtomY + cubeSize - pipeSize); // right bottom
-			//glVertex2d(leftBottomX + pipeSize + window, reflectionButtomY - pipeSize); // left bottom
-			//glVertex2d(leftBottomX + pipeSize + window, reflectionButtomY - cubeSize + pipeSize); // right bottom
+			glVertex2d(leftBottomX + pipeSize + window, reflectionButtomY - pipeSize); // left bottom
+			glVertex2d(leftBottomX + pipeSize + window, reflectionButtomY - cubeSize + pipeSize); // right bottom
 			glEnd();
 		}
 
@@ -244,6 +253,15 @@ void ElectraTower(double leftBottomX, double leftButtomY) {
 		glVertex2d(leftBottomX + cubeSize, leftButtomY + cubeSize); // right top
 		glVertex2d(leftBottomX, leftButtomY + cubeSize); // left top
 		glEnd();
+		//reflection
+		glLineWidth(3);
+		glBegin(GL_LINE_LOOP);
+		glColor3d(0.9, 0.9, 0.9);
+		glVertex2d(leftBottomX, reflectionButtomY); // left bottom
+		glVertex2d(leftBottomX + cubeSize, reflectionButtomY); // right bottom
+		glVertex2d(leftBottomX + cubeSize, reflectionButtomY - cubeSize); // right top
+		glVertex2d(leftBottomX, reflectionButtomY - cubeSize); // left top
+		glEnd();
 
 		for (pipe = windowWidth / 4; pipe < windowWidth; pipe += windowWidth / 4)
 		{
@@ -251,16 +269,16 @@ void ElectraTower(double leftBottomX, double leftButtomY) {
 			glBegin(GL_LINES);
 			glVertex2d(leftBottomX + pipe + pipeSize, leftButtomY);
 			glVertex2d(leftBottomX + pipe + pipeSize, leftButtomY + pipeSize);
-			//glVertex2d(leftBottomX + pipe + pipeSize, reflectionButtomY);
-			//glVertex2d(leftBottomX + pipe + pipeSize, reflectionButtomY - pipeSize);
+			glVertex2d(leftBottomX + pipe + pipeSize, reflectionButtomY);
+			glVertex2d(leftBottomX + pipe + pipeSize, reflectionButtomY - pipeSize);
 			glEnd();
 
 			// top pipes
 			glBegin(GL_LINES);
 			glVertex2d(leftBottomX + pipe + pipeSize, leftButtomY + cubeSize);
 			glVertex2d(leftBottomX + pipe + pipeSize, leftButtomY - pipeSize + cubeSize);
-			//glVertex2d(leftBottomX + pipe + pipeSize, reflectionButtomY + cubeSize);
-			//glVertex2d(leftBottomX + pipe + pipeSize, reflectionButtomY + pipeSize - cubeSize);
+			glVertex2d(leftBottomX + pipe + pipeSize, reflectionButtomY - cubeSize);
+			glVertex2d(leftBottomX + pipe + pipeSize, reflectionButtomY + pipeSize - cubeSize);
 			glEnd();
 		}
 
@@ -270,38 +288,23 @@ void ElectraTower(double leftBottomX, double leftButtomY) {
 			glBegin(GL_LINES);
 			glVertex2d(leftBottomX, leftButtomY + pipe + pipeSize);
 			glVertex2d(leftBottomX + pipeSize, leftButtomY + pipe + pipeSize);
-			//glVertex2d(leftBottomX, reflectionButtomY - pipe - pipeSize);
-			//glVertex2d(leftBottomX + pipeSize, reflectionButtomY - pipe - pipeSize);
+			glVertex2d(leftBottomX, reflectionButtomY - pipe - pipeSize);
+			glVertex2d(leftBottomX + pipeSize, reflectionButtomY - pipe - pipeSize);
 			glEnd();
 
 			// right pipes
 			glBegin(GL_LINES);
 			glVertex2d(leftBottomX + cubeSize, leftButtomY + pipe + pipeSize);
 			glVertex2d(leftBottomX - pipeSize + cubeSize, leftButtomY + pipe + pipeSize);
-			//glVertex2d(leftBottomX + cubeSize, reflectionButtomY - pipe - pipeSize);
-			//glVertex2d(leftBottomX - pipeSize + cubeSize, reflectionButtomY - pipe - pipeSize);
+			glVertex2d(leftBottomX + cubeSize, reflectionButtomY - pipe - pipeSize);
+			glVertex2d(leftBottomX - pipeSize + cubeSize, reflectionButtomY - pipe - pipeSize);
 			glEnd();
 		}
-		/*
-		//reflection
-		glBegin(GL_POLYGON);
-		glColor3d(0.2, 0.4, 0.5);
-		glVertex2d(leftBottomX + pipeSize, reflectionButtomY); // left top
-		glVertex2d(leftBottomX + pipeSize + windowWidth, reflectionButtomY); // right top
-		glVertex2d(leftBottomX + pipeSize + windowWidth, reflectionButtomY - cubeSize); // right bottom
-		glVertex2d(leftBottomX + pipeSize, reflectionButtomY - cubeSize); // left bottom
-		glEnd();
-
-		glLineWidth(3);
-		glBegin(GL_LINE_LOOP);
-		glColor3d(1, 1, 0.9);
-		glVertex2d(leftBottomX, reflectionButtomY); // left bottom
-		glVertex2d(leftBottomX + cubeSize, reflectionButtomY); // right bottom
-		glVertex2d(leftBottomX + cubeSize, reflectionButtomY - cubeSize); // right top
-		glVertex2d(leftBottomX, reflectionButtomY - cubeSize); // left top
-		glEnd();
+		
+		
+		
 		reflectionButtomY -= 0.25;
-		*/
+		
 	}
 }
 
@@ -316,21 +319,13 @@ void display()
 	DrawWheel(-0.5, 0, 0.45, 30);
 
 	glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
-	//glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_DST_COLOR);
-	//glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 	DrawWheel(-0.5, -0.95, 0.45, 30);
 	glDisable(GL_BLEND);
 
 	ElectraTower(0.5, -0.75);
-	/* transparent reflection of electra
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
-	ElectraTower(0.5, -1.5);
-	glDisable(GL_BLEND);
-	*/
-
+	
+	
 	// big buildings
 	for (x = -1, i = 0; x <= 1; x += step, i++)
 	{
@@ -356,7 +351,7 @@ void display()
 		//reflection
 		DrawBuilding(x, -0.5, -0.5 + (-0.5 - y), 0.06, 0.3- 0.05, 0.4 * (1 - fabs(x)) - 0.05, fabs(y) - 0.05);
 	}
-
+	
 	glutSwapBuffers(); // show all
 }
 
@@ -366,7 +361,7 @@ void idle()
 	int i, j;
 
 	// update moving stars
-	/*
+	
 	for (i = 0; i < NUM_STARS; i++)
 	{
 		stars[i].x *= 1.003;
@@ -378,7 +373,7 @@ void idle()
 			stars[i].y = -0.5 + (rand() % 1000) / 1000.0; // random value in range (-1,1);
 		}
 	}
-	*/
+	
 
 	// switch light in randomly choosen window
 	i = rand() % NUM_STARS;
