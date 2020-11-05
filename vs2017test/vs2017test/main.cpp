@@ -18,6 +18,7 @@ bool light[NUM_STARS][NUM_STARS]; // windows
 double heights[NUM_STARS];
 
 double offset = 0;
+double airplaneOffset = 0;
 
 void init()
 {
@@ -35,7 +36,7 @@ void init()
 		for (j = 0; j < NUM_STARS; j++)
 			light[i][j] = (rand() % 20) <= 14;
 
-	//             red  green  blue
+	//			red  green  blue
 	glClearColor(0.0, 0.0, 0.3, 0);// color of window background
 	// setup orthographic projection
 	glOrtho(-1, 1, -1, 1, 1, -1); // logical coordinates
@@ -300,11 +301,54 @@ void ElectraTower(double leftBottomX, double leftButtomY) {
 			glVertex2d(leftBottomX - pipeSize + cubeSize, reflectionButtomY - pipe - pipeSize);
 			glEnd();
 		}
-		
-		
-		
+
 		reflectionButtomY -= 0.25;
-		
+	}
+}
+
+void Airplane(double cx, double cy, int n) {
+	double alpha, teta = 2 * PI / n;
+	double x, y, i;
+	double radius = 0.125;
+
+	glColor3d(1, 1, 1);
+	glBegin(GL_POLYGON);
+	for (alpha = PI / 2; alpha <= (3 * PI) / 2; alpha += teta)
+	{
+		x = cx + radius * cos(alpha) + airplaneOffset;
+		y = cy + radius * sin(alpha);
+		glVertex2d(x, y);
+	}
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glVertex2d(cx + airplaneOffset, cy - 0.125); // left bottom
+	glVertex2d(cx + 1 + airplaneOffset, cy - 0.125); // right bottom
+	glVertex2d(cx + 1 + airplaneOffset, cy + 0.125); // right top
+	glVertex2d(cx + airplaneOffset, cy + 0.125); // left top
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glVertex2d(cx + 1 + airplaneOffset, cy - 0.125);
+	glVertex2d(cx + 1.25 + airplaneOffset, cy + 0.375);
+	glVertex2d(cx + 1 + airplaneOffset, cy + 0.125);
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glVertex2d(cx + 0.5 + airplaneOffset, cy - 0.125);
+	glVertex2d(cx + 1 + airplaneOffset, cy - 0.375);
+	glVertex2d(cx + 0.75 + airplaneOffset, cy - 0.125);
+	glEnd();
+
+	glColor3d(0, 0.7, 1);
+	for (i = 0; i < 1; i += 0.05)
+	{
+		glBegin(GL_POLYGON);
+		glVertex2d(cx + i + airplaneOffset, cy - 0.02); // left bottom
+		glVertex2d(cx + i + 0.04 + airplaneOffset, cy - 0.02); // right bottom
+		glVertex2d(cx + i + 0.04 + airplaneOffset, cy + 0.06); // right top
+		glVertex2d(cx + i + airplaneOffset, cy + 0.06); // left top
+		glEnd();
 	}
 }
 
@@ -316,6 +360,7 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT); // clean frame buffer
 
 	DrawStarrySky();
+	Airplane(1, 0.5, 20);
 	DrawWheel(-0.5, 0, 0.45, 30);
 
 	glEnable(GL_BLEND);
@@ -324,8 +369,7 @@ void display()
 	glDisable(GL_BLEND);
 
 	ElectraTower(0.5, -0.75);
-	
-	
+
 	// high buildings
 	for (x = -1, i = 0; x <= 1; x += step, i++)
 	{
@@ -349,9 +393,9 @@ void display()
 		DrawBuilding(x, y, -0.5, 0.06, 0.3, 0.4 * (1 - fabs(x)), fabs(y));
 
 		//reflection
-		DrawBuilding(x, -0.5, -0.5 + (-0.5 - y), 0.06, 0.3- 0.05, 0.4 * (1 - fabs(x)) - 0.05, fabs(y) - 0.05);
+		DrawBuilding(x, -0.5, -0.5 + (-0.5 - y), 0.06, 0.3 - 0.05, 0.4 * (1 - fabs(x)) - 0.05, fabs(y) - 0.05);
 	}
-	
+
 	glutSwapBuffers(); // show all
 }
 
@@ -371,6 +415,12 @@ void idle()
 	light[i][j] = !light[i][j];
 
 	offset -= 0.001;
+
+	airplaneOffset -= 0.001;
+	if (airplaneOffset < -5) {
+		airplaneOffset = 0;
+	}
+
 	glutPostRedisplay(); // indirect call to display
 }
 
